@@ -25,10 +25,10 @@ class ProductController extends Controller
 
     public function generateKeyword(Request $request){
         $product_title = $request->productTitle;
-        $user = User::find($request->user_id)->select('name')->first();
+        $user = User::where('id',$request->user_id)->select('name')->first();
         $base_url = env('BASE_URL');
         $request_url = $base_url.'/keywords';
-        $response = Http::post($request_url, ["uid"=>$user->name, "text"=>$product_title]);
+        $response = Http::post($request_url, ["uid"=>"sdadsa", "text"=>$product_title]);
         return [json_decode($response->body()), $response->getStatusCode()];
     }
     
