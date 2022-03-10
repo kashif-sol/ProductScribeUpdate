@@ -440,7 +440,7 @@
 				if(response[1] == 200){
 					$('#keywords').val(response[0]);
 				}else{
-					showMonoErrorAlert(JSON.stringify(response[0]));
+					showMonoErrorAlert(JSON.stringify(response[0].detail));
 				}
             },
             error: function (xhr, textStatus, errorThrown) {
