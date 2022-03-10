@@ -28,8 +28,11 @@ Route::get('/view-products', [ProductController::class,"showAllProducts"])->name
 });
     
 Route::get('/plans', [ProductController::class,"Plans"])->name("plans")->middleware(['verify.shopify']);
+
 Route::post('/submit-product', [ProductController::class,"submitProduct"])->name("submitProduct");
 
 Route::post('/publish-product', [ProductController::class,"publishProduct"])->name("publishProduct");
 
 Route::post('/generate-keyword',[ProductController::class, 'generateKeyword'])->name('generateKeyword');
+
+Route::post('/subscription-test/{shopDomain}',[ProductController::class, 'subscriptionTest'])->name('subscriptionTest');

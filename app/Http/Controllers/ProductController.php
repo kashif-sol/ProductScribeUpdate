@@ -23,6 +23,21 @@ use Illuminate\Support\Facades\File;
 class ProductController extends Controller
 {
 
+    public function subscriptionTest($shopDomain){
+        $base_url = env('BASE_URL');
+        $request_url = $base_url."/payment";
+        $data = array();
+        $data["uid"] = $shopDomain;
+        $data["storeName"] = $shopDomain;
+        $user = User::where('name',$shopDomain)->first();
+        $charge = DB::table('charges')->where('user_id',$user->id)->orderBy('user_id','desc')->first();
+        $data["planID"] = intval($charge->terms);
+        $data["transactionID"] = $charge->charge_id;
+        $data["appSecret"] =$user->password;
+        $response_api = Http::post($request_url, $data);
+        dd(json_decode($response_api->body()));
+    }
+
     public function generateKeyword(Request $request){
         $product_title = $request->productTitle;
         $user = User::where('id',$request->user_id)->select('name')->first();
