@@ -30,10 +30,11 @@ class ProductController extends Controller
         $data["uid"] = $shopDomain;
         $data["storeName"] = $shopDomain;
         $user = User::where('name',$shopDomain)->first();
-        $charge = DB::table('charges')->where('user_id',$user->id)->orderBy('user_id','desc')->first();
+        $charge = DB::table('charges')->where('user_id',$user->id)->orderBy('id','desc')->first();
         $data["planID"] = intval($charge->terms);
         $data["transactionID"] = $charge->charge_id;
         $data["appSecret"] =$user->password;
+        dd($data);
         $response_api = Http::post($request_url, $data);
         dd(json_decode($response_api->body()));
     }
