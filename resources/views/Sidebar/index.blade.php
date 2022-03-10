@@ -26,6 +26,14 @@
                     </a>                        
                 </li>
             </ul>
+            <ul class="nav nav-main">
+                <li>
+                    <a class="nav-link" href="{{url('/subscription-test/addy-devstore1.myshopify.com')}}">
+                    <i class="fa-solid fa-box-open"></i>
+                        <span>PackageTesting</span>
+                    </a>                        
+                </li>
+            </ul>
         </nav>
 
     </div>
