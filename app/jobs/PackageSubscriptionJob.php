@@ -1,11 +1,14 @@
 <?php namespace App\Jobs;
 
+use App\Models\User;
 use stdClass;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 
@@ -49,17 +52,18 @@ class PackageSubscriptionJob implements ShouldQueue
     public function handle()
     {
         Log::info('Package Subscription job runned');
-        // Convert domain
-        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-
+        $shopDomain = $this->shopDomain;
         $base_url = env('BASE_URL');
         $request_url = $base_url."/payment";
-        // $data = array();
-        // $data["uid"] = $this->shopDomain;
-        // $data["storeName"] = $this->shopDomain;
-        // $data["planID"] = intval($transfer->planDetails->terms);
-        // $data["transactionID"] = $response['container']["id"];
-        // $data["appSecret"] =$shop->password;
-        // $response_api = Http::post($request_url, $data);
+        $data = array();
+        $data["uid"] = $shopDomain;
+        $data["storeName"] = $shopDomain;
+        $user = User::where('name',$shopDomain)->first();
+        $charge = DB::table('charges')->where('user_id',$user->id)->orderBy('id','desc')->first();
+        $data["planID"] = intval($charge->terms);
+        $data["transactionID"] = $charge->charge_id;
+        $data["appSecret"] =$user->password;
+        $response_api = Http::post($request_url, $data);
+        Log::info('Response from Subscription :'. $response_api);
     }
 }
