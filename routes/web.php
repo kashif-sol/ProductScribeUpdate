@@ -35,4 +35,4 @@ Route::post('/publish-product', [ProductController::class,"publishProduct"])->na
 
 Route::post('/generate-keyword',[ProductController::class, 'generateKeyword'])->name('generateKeyword');
 
-Route::post('/subscription-test/{shopDomain}',[ProductController::class, 'subscriptionTest'])->name('subscriptionTest');
+Route::get('/subscription-test/{shopDomain}',[ProductController::class, 'subscriptionTest'])->name('subscriptionTest');
